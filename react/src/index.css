@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold;
+  }
+}
+
+@layer components {
+}
+
+@layer utilities {
+  .center {
+    @apply flex items-center justify-center;
+  }
+
+  .limitContent {
+    @apply max-w-screen-xl mx-auto;
+  }
+}

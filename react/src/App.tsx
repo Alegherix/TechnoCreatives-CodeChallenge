@@ -1,5 +1,4 @@
-import './App.css';
-import ProductPage from './components/ProductPage/ProductPage';
+import ProductPage from './components/ProductPage';
 import UrqlProvider from './provider/UrqlProvider';
 
 const App = () => {

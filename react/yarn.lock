@@ -1584,6 +1584,11 @@
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
 
+"@tabler/icons@^1.66.0":
+  version "1.66.0"
+  resolved "https://registry.yarnpkg.com/@tabler/icons/-/icons-1.66.0.tgz#411630b5c8997e42d7f4fe920054bb7750975b50"
+  integrity sha512-lSm1uDymlWdBbGN3TuqvzQbV3kIwcTJo0QTJJbSb5py+ivxSI/Fat/t+pA7/JqLm9rUU+CXuVj3PONSUTanxpg==
+
 "@testing-library/dom@^7.28.1":
   version "7.31.2"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.31.2.tgz#df361db38f5212b88555068ab8119f5d841a8c4a"
