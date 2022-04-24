@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Storefront, NotFound, ProductPage, Layout } from './components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Layout, NotFound, ProductPage, Store } from './components';
 import { UrqlProvider } from './provider';
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
       <UrqlProvider apiEndpoint={process.env.REACT_APP_GRAPHQL_ENDPOINT}>
         <Layout>
           <Routes>
-            <Route path="/" element={<Storefront />} />
+            <Route path="/" element={<Store />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
