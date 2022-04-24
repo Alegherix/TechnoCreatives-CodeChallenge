@@ -1,9 +1,34 @@
 import React, { useMemo } from 'react';
-import { Provider, createClient } from 'urql';
+import {
+  Provider,
+  createClient,
+  dedupExchange,
+  fetchExchange,
+  Exchange,
+} from 'urql';
+import { cacheExchange } from '@urql/exchange-graphcache';
+import { relayPagination } from '@urql/exchange-graphcache/extras';
+import { retryExchange, RetryExchangeOptions } from '@urql/exchange-retry';
 
 interface UrqlProviderProps {
   apiEndpoint: string | undefined;
 }
+
+const options: RetryExchangeOptions = {
+  initialDelayMs: 1000,
+  maxDelayMs: 2000,
+  randomDelay: true,
+  maxNumberAttempts: 2,
+  retryIf: (err) => err && err.message !== null,
+};
+
+const cache: Exchange = cacheExchange({
+  resolvers: {
+    Query: {
+      Balloons: relayPagination(),
+    },
+  },
+});
 
 /**
  * A Component that returns the urql provider to wrap the application with the urqlContext and throw errors if endpoint is missing
@@ -23,6 +48,12 @@ export const UrqlProvider: React.FC<UrqlProviderProps> = ({
     () =>
       createClient({
         url: apiEndpoint,
+        exchanges: [
+          dedupExchange,
+          retryExchange(options),
+          cache,
+          fetchExchange,
+        ],
       }),
     [apiEndpoint]
   );
