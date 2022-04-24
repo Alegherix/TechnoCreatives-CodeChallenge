@@ -9,7 +9,7 @@ interface UrqlProviderProps {
  * A Component that returns the urql provider to wrap the application with the urqlContext and throw errors if endpoint is missing
  * @param param0 the API endpoint for the GraphQL schema to consume
  */
-const UrqlProvider: React.FC<UrqlProviderProps> = ({
+export const UrqlProvider: React.FC<UrqlProviderProps> = ({
   apiEndpoint,
   children,
 }) => {
@@ -29,5 +29,3 @@ const UrqlProvider: React.FC<UrqlProviderProps> = ({
 
   return <Provider value={client}>{children}</Provider>;
 };
-
-export default UrqlProvider;
