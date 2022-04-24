@@ -4,11 +4,15 @@
 
 @layer base {
   h1 {
-    @apply text-3xl font-bold;
+    @apply text-2xl font-bold;
   }
 
   h2 {
     @apply text-2xl font-semibold;
+  }
+
+  hr {
+    @apply bg-gray-50 w-full h-[1px] my-1;
   }
 }
 

@@ -1,10 +1,6 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
-
-import ProductPage from './components/Product/ProductPage';
-import Storefront from './components/Store/Storefront';
-import UrqlProvider from './provider/UrqlProvider';
+import { Storefront, NotFound, ProductPage, Layout } from './components';
+import { UrqlProvider } from './provider';
 
 const App = () => {
   return (
@@ -13,7 +9,8 @@ const App = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<Storefront />} />
-            <Route path="/products/:productId" element={<ProductPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </UrqlProvider>
