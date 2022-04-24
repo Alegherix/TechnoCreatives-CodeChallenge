@@ -14,6 +14,12 @@
   hr {
     @apply bg-gray-50 w-full h-[1px] my-1;
   }
+
+  label,
+  input,
+  details {
+    @apply cursor-pointer;
+  }
 }
 
 @layer components {

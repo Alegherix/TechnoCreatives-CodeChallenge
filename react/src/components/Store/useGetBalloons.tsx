@@ -11,6 +11,10 @@ export interface UseGetBalloons
   error: CombinedError | undefined;
 }
 
+/**
+ * A custom hook that's used to return the relevant data, error and loading state for the Store
+ * @param variables
+ */
 export const useGetBalloons = (
   variables: BalloonsQueryVariables
 ): UseGetBalloons => {
