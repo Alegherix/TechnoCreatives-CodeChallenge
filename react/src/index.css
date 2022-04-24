@@ -4,7 +4,7 @@
 
 @layer base {
   h1 {
-    @apply text-2xl font-bold;
+    @apply text-2xl font-bold md:text-3xl;
   }
 
   h2 {
@@ -17,6 +17,9 @@
 }
 
 @layer components {
+  .cta {
+    @apply bg-blue-600 text-white font-semibold p-4 w-[fit-content];
+  }
 }
 
 @layer utilities {
