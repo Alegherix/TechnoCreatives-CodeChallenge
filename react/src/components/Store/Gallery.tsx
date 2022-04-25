@@ -46,7 +46,6 @@ const StorefrontCard: React.VFC<Balloon> = ({
         <span className="text-xs text-gray-600 block">(inkl. moms)</span>
 
         <p className="mt-3">{description}</p>
-        <p>{color}</p>
       </div>
     </Link>
   );
