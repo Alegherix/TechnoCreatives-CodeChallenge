@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Spinner } from '..';
 import { Balloon, BalloonEdge } from '../../graphql/generated';
 import { formatImageUrl } from '../../utils/formatImageUrl';
 
-type StorefrontGalleryProps = { edges: BalloonEdge[] };
+type StorefrontGalleryProps = { edges: BalloonEdge[]; fetching: boolean };
 export const StorefrontGallery: React.VFC<StorefrontGalleryProps> = ({
   edges,
+  fetching,
 }) => {
+  if (fetching) return <Spinner />;
   return (
     <div className="grid grid-cols-1 gap-6 mx-auto lg:grid-cols-2">
       {edges?.map((edge) => (

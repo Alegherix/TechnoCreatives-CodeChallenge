@@ -1,5 +1,5 @@
-query Balloons($endCursor: ID, $filter: FilterInput) {
-  balloons(after: $endCursor, filter: $filter) {
+query Balloons($endCursor: ID, $filter: FilterInput, $sort: SortInput) {
+  balloons(after: $endCursor, filter: $filter, sort: $sort) {
     edges {
       node {
         id

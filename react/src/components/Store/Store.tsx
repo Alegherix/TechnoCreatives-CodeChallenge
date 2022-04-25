@@ -1,34 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
-  useForm,
   FormProvider,
+  useForm,
   useFormContext,
-  useFormState,
   useWatch,
 } from 'react-hook-form';
 import { Storefront } from '.';
-import { Color, FilterInput, Variant } from '../../graphql/generated';
+import { Color, SortInput, Variant } from '../../graphql/generated';
+import { Spinner } from '../Spinner';
 import { useGetBalloons } from './useGetBalloons';
 
 export const StoreFront: React.VFC = () => {
   // const [endCursor, setEndCursor] = useState<string>();
-  const { getValues, control } = useFormContext<FormValues>();
-  const { color, variant } = useWatch<FormValues>({
+  const { control } = useFormContext<FormValues>();
+  const { color, variant, sort } = useWatch<FormValues>({
     control,
   });
   const { pageInfo, edges, error, fetching } = useGetBalloons({
     // endCursor,
     filter: {
-      color: getValues('color'),
-      variant: getValues('variant'),
+      color,
+      variant,
     },
+    sort: sort,
   });
 
-  useEffect(() => {
-    console.log(color);
-  }, [color, variant]);
+  console.log({ fetching, edges });
 
-  if (fetching) return <p>Loading...</p>;
+  if (fetching && !edges) return <Spinner />;
   if (error) return <p>Oh no... {error.message}</p>;
   if (!pageInfo || !edges) return <p></p>;
 
@@ -37,7 +36,7 @@ export const StoreFront: React.VFC = () => {
       <Storefront.Title>Balloon Store</Storefront.Title>
       <Storefront.Container>
         <Storefront.Filter />
-        <Storefront.Gallery edges={edges} />
+        <Storefront.Gallery edges={edges} fetching={fetching} />
       </Storefront.Container>
     </>
   );
@@ -46,6 +45,7 @@ export const StoreFront: React.VFC = () => {
 export type FormValues = {
   color: Color | null;
   variant: Variant | null;
+  sort: SortInput | null;
 };
 
 export const Store: React.VFC = () => {
@@ -53,6 +53,7 @@ export const Store: React.VFC = () => {
     defaultValues: {
       color: null,
       variant: null,
+      sort: null,
     },
   });
   return (

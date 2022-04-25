@@ -1,17 +1,17 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FormValues } from '.';
-import { Color, Variant } from '../../graphql/generated';
+import { Color, SortInput, Variant } from '../../graphql/generated';
 
 /**
  * A type to represent the fields in the form related to filtering
  */
-type FieldFilterType = keyof Pick<FormValues, 'color' | 'variant'>;
+type FieldFilterType = keyof Pick<FormValues, 'color' | 'variant' | 'sort'>;
 
 /**
  * The variations of filters that can be applied to a search
  */
-type FilterVariation = typeof Color | typeof Variant;
+type FilterVariation = typeof Color | typeof Variant | typeof SortInput;
 
 /**
  * Used to create a map between the different fields, and the filter for those fields
@@ -19,6 +19,7 @@ type FilterVariation = typeof Color | typeof Variant;
 const filterMap: Record<FieldFilterType, FilterVariation> = {
   color: Color,
   variant: Variant,
+  sort: SortInput,
 };
 
 interface FilterSectionProps {
@@ -71,6 +72,7 @@ export const StorefrontFilter: React.VFC = () => {
       <div className="flex flex-col gap-2">
         <FilterSection fieldValue="color" filterName="Colors" />
         <FilterSection fieldValue="variant" filterName="Variants" />
+        <FilterSection fieldValue="sort" filterName="Sort by" />
       </div>
     </aside>
   );
