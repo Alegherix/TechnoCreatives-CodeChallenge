@@ -8,7 +8,7 @@
   }
 
   h2 {
-    @apply text-2xl font-semibold;
+    @apply text-xl md:text-2xl font-semibold;
   }
 
   hr {
@@ -25,6 +25,9 @@
 @layer components {
   .cta {
     @apply bg-blue-600 text-white font-semibold p-4 w-[fit-content];
+  }
+  .card {
+    @apply p-4 border border-slate-200 shadow-xl rounded-md;
   }
 }
 

@@ -2,14 +2,7 @@ query Balloons($endCursor: ID, $filter: FilterInput, $sort: SortInput) {
   balloons(after: $endCursor, filter: $filter, sort: $sort) {
     edges {
       node {
-        id
-        name
-        imageUrl
-        description
-        color
-        variant
-        price
-        availableSince
+        ...BalloonData
       }
       cursor
     }

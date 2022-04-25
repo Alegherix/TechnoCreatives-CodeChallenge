@@ -11,7 +11,7 @@ export const StorefrontGallery: React.VFC<StorefrontGalleryProps> = ({
 }) => {
   if (fetching) return <Spinner />;
   return (
-    <div className="grid grid-cols-1 gap-6 mx-auto lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-6 mx-auto md:grid-cols-2">
       {edges?.map((edge) => (
         <StorefrontCard key={edge.cursor} {...edge.node} />
       ))}
@@ -29,11 +29,12 @@ const StorefrontCard: React.VFC<Balloon> = ({
 }) => {
   return (
     <Link to={`/product/${id}`}>
-      <div
-        className="p-4 border border-slate-200 shadow-xl flex flex-col rounded-md 
-        hover:scale-[1.02] transition-all duration-150"
-      >
-        <img className="rounded-md" src={formatImageUrl(imageUrl)} alt={name} />
+      <div className="card flex flex-col hover:scale-[1.02] transition-all duration-150 h-full">
+        <img
+          className="rounded-md "
+          src={formatImageUrl(imageUrl)}
+          alt={name}
+        />
         <h2 className="mt-1">{name}</h2>
 
         <var className="text-red-500 font-semibold">

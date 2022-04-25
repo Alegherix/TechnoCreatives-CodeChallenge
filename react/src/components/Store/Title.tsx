@@ -6,5 +6,5 @@ import React from 'react';
  * @returns
  */
 export const StorefrontTitle: React.FC = ({ children }) => {
-  return <h1 className="mt-4">{children}</h1>;
+  return <h1 className="mt-4 mb-8 ">{children}</h1>;
 };

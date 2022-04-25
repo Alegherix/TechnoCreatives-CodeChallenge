@@ -26,9 +26,9 @@ interface FilterSectionProps {
   fieldValue: FieldFilterType;
   filterName: string;
 }
+
 /**
- * A component that's used to create filters for the Store
- * @param param0
+ * A component that's used to create filters for the Store,
  */
 const FilterSection: React.VFC<FilterSectionProps> = ({
   fieldValue,
@@ -43,12 +43,12 @@ const FilterSection: React.VFC<FilterSectionProps> = ({
       : setValue(fieldValue, value);
 
   return (
-    <details open>
+    <details>
       <summary>{filterName}</summary>
       <form>
         {(Object.keys(filter) as Array<keyof typeof filter>).map((value) => {
           return (
-            <div className="flex items-center gap-x-2" key={value}>
+            <div className="flex items-center gap-x-2 w-full" key={value}>
               <input
                 {...register(fieldValue)}
                 type="radio"
@@ -67,9 +67,9 @@ const FilterSection: React.VFC<FilterSectionProps> = ({
 
 export const StorefrontFilter: React.VFC = () => {
   return (
-    <aside className=" flex flex-col min-w-[160px]">
+    <aside className="min-w-[160px]">
       <h2>Filter</h2>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 mt-2">
         <FilterSection fieldValue="color" filterName="Colors" />
         <FilterSection fieldValue="variant" filterName="Variants" />
         <FilterSection fieldValue="sort" filterName="Sort by" />

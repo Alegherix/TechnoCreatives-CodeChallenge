@@ -1,0 +1,10 @@
+fragment BalloonData on Balloon {
+  id
+  name
+  imageUrl
+  description
+  color
+  variant
+  price
+  availableSince
+}

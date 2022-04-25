@@ -5,5 +5,9 @@ import React from 'react';
  * @param param0 the components to render within
  */
 export const StorefrontContainer: React.FC = ({ children }) => {
-  return <section className="flex gap-4 gap-x-10">{children}</section>;
+  return (
+    <section className="flex flex-col gap-4 gap-x-10 md:flex-row">
+      {children}
+    </section>
+  );
 };

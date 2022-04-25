@@ -1,12 +1,5 @@
 query GetBalloonData($id: String!) {
   balloon(id: $id) {
-    id
-    name
-    imageUrl
-    description
-    color
-    variant
-    price
-    availableSince
+    ...BalloonData
   }
 }
