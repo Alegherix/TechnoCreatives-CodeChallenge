@@ -28,7 +28,7 @@ const StorefrontCard: React.VFC<Balloon> = ({
     <Link to={`/product/${id}`}>
       <div
         className="p-4 border border-slate-200 shadow-xl flex flex-col rounded-md 
-        hover:scale-105 transition-all duration-150"
+        hover:scale-[1.02] transition-all duration-150"
       >
         <img className="rounded-md" src={formatImageUrl(imageUrl)} alt={name} />
         <h2 className="mt-1">{name}</h2>
