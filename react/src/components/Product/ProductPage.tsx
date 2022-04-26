@@ -4,12 +4,17 @@ import { formatImageUrl } from '../../utils/formatImageUrl';
 import { Spinner, Button } from '../';
 import { useProduct } from './useProduct';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
+import { useStore } from '../../provider';
 
 interface FormValues {
   amount: number;
 }
 
-const AddToCart = () => {
+interface AddToCartProps {
+  id: string;
+}
+const AddToCart: React.VFC<AddToCartProps> = ({ id }) => {
+  const { addToCart } = useStore();
   const {
     handleSubmit,
     register,
@@ -35,7 +40,9 @@ const AddToCart = () => {
       : setValue('amount', Math.max(currentCount - 1, 1));
   };
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    addToCart({ id, amount: Number(data.amount) });
+  };
 
   return (
     <>
@@ -97,7 +104,7 @@ export const ProductPage: React.FC = () => {
     <>
       <h1 className="my-4">{name}</h1>
       <div className="flex flex-col gap-2 md:flex-row md:gap-10">
-        <div>
+        <div className="max-w-[600px] max-h-[600px]">
           <img
             className="rounded-sm"
             src={formatImageUrl(imageUrl)}
@@ -119,7 +126,7 @@ export const ProductPage: React.FC = () => {
             </var>
             <span className="text-xs text-gray-600 block">(incl. vat)</span>
           </div>
-          <AddToCart />
+          <AddToCart id={id} />
 
           <hr className="my-4" />
 

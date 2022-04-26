@@ -1,4 +1,6 @@
 import { IconShoppingCart } from '@tabler/icons';
+import { useStore } from '../../provider';
+import { Button } from '../Button';
 
 // TODO - Add LocalStorage hook and save added items to localStorage
 /**
@@ -6,15 +8,20 @@ import { IconShoppingCart } from '@tabler/icons';
  * @returns
  */
 export const ShoppingCart = () => {
-  const placeholderAmount = 4;
+  const { amountAdded } = useStore();
   const totalValue = 150;
+
   return (
-    <button className="p-2 relative center gap-2 rounded-sm bg-blue-600 hover:bg-blue-500 transition-all duration-200">
+    <Button className="relative p-2">
       <IconShoppingCart className="text-white" />
-      <span className="mr-2 font-bold">{totalValue}:-</span>
-      <span className="rounded-full bg-red-600 h-5 w-5 center text-sm absolute -top-1 -right-1">
-        {placeholderAmount}
-      </span>
-    </button>
+      {amountAdded > 0 && (
+        <>
+          <span className="mx-2 font-bold">{`${totalValue}:-`}</span>
+          <span className="rounded-full bg-red-600 center text-sm absolute -top-2 -right-2 w-fit p-[2px] min-w-[24px] ">
+            {amountAdded}
+          </span>
+        </>
+      )}
+    </Button>
   );
 };
