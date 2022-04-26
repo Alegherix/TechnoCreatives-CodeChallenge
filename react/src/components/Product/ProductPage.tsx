@@ -49,8 +49,6 @@ const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     addToCart({ id, price, amount: Number(data.amount) });
-    console.log(state);
-
     setSessionStorage(state);
   };
 

@@ -25,8 +25,6 @@ export const useGetBalloons = (
 
   const { data, error, fetching } = result;
 
-  console.log(data);
-
   const pageInfo = data?.balloons.pageInfo;
   const edges = data?.balloons.edges;
 

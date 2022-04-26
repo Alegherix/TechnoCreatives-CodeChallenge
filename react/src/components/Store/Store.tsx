@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FormProvider,
   useForm,
@@ -6,22 +6,29 @@ import {
   useWatch,
 } from 'react-hook-form';
 import { Storefront } from '.';
+import { Button } from '..';
 import { Color, SortInput, Variant } from '../../graphql/generated';
 import { Spinner } from '../Spinner';
 import { useGetBalloons } from './useGetBalloons';
 
 export const StoreFront: React.VFC = () => {
+  const [endCursor, setEndCursor] = useState<string | null>(null);
   const { control } = useFormContext<FormValues>();
   const { color, variant, sort } = useWatch<FormValues>({
     control,
   });
   const { pageInfo, edges, error, fetching } = useGetBalloons({
+    endCursor,
     filter: {
       color,
       variant,
     },
     sort: sort,
   });
+
+  useEffect(() => {
+    if (sort || color || variant || !pageInfo?.hasNextPage) setEndCursor(null);
+  }, [sort, color, variant, pageInfo?.hasNextPage]);
 
   if (fetching && !edges) return <Spinner />;
   if (error) return <p>Oh no... {error.message}</p>;
@@ -34,6 +41,14 @@ export const StoreFront: React.VFC = () => {
         <Storefront.Filter />
         <Storefront.Gallery edges={edges} fetching={fetching} />
       </Storefront.Container>
+      {pageInfo.hasNextPage && (
+        <Button
+          className="float-right mt-4"
+          onClick={() => setEndCursor(pageInfo.endCursor ?? null)}
+        >
+          Load more
+        </Button>
+      )}
     </>
   );
 };
