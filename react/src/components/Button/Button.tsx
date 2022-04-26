@@ -1,6 +1,6 @@
 import React from 'react';
+import { Variant } from '../../shared';
 
-type Variant = 'Primary' | 'Secondary';
 interface Buttonprops extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
 }
