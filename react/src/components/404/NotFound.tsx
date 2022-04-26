@@ -6,7 +6,7 @@ export const NotFound: React.VFC = () => {
     <div className="center flex-col gap-2">
       <h1 className="text-4xl">404 - Not Found!</h1>
       <p>Ohh no, it looks like you encountered a page that doesn't exist.</p>
-      <Link className="cta " to="/">
+      <Link className="primaryBtn" to="/">
         Go Home
       </Link>
     </div>

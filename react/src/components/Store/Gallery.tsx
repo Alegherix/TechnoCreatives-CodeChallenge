@@ -43,8 +43,7 @@ const StorefrontCard: React.VFC<Balloon> = ({
             currency: 'SEK',
           }).format(price)}
         </var>
-        <span className="text-xs text-gray-600 block">(inkl. moms)</span>
-
+        <span className="text-xs text-gray-600 block">(incl. vat)</span>
         <p className="mt-3">{description}</p>
       </div>
     </Link>
