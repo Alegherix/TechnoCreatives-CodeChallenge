@@ -1,5 +1,7 @@
 import { createContext, useContext } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useStoreReducer } from '../reducer';
+import { BLUEPRINT_KEY } from '../shared';
 
 /**
  * An interface that represents an Item that gets added to the Shopping cart
@@ -33,8 +35,12 @@ export interface StoreContextProps {
 const StoreContext = createContext<StoreContextProps | null>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {
-  const { state, addToCart, removeFromCart, amountAdded } = useStoreReducer({
+  const [localStorageState] = useLocalStorage<StoreState>(BLUEPRINT_KEY, {
     bluePrints: [],
+  });
+
+  const { state, addToCart, removeFromCart, amountAdded } = useStoreReducer({
+    bluePrints: localStorageState.bluePrints,
   });
 
   return (

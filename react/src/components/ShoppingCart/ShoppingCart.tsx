@@ -1,15 +1,24 @@
 import { IconShoppingCart } from '@tabler/icons';
-import { useStore } from '../../provider';
+import { useEffect } from 'react';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { StoreState, useStore } from '../../provider';
 import { Button } from '../Button';
+import { BLUEPRINT_KEY } from '../../shared';
 
-// TODO - Add LocalStorage hook and save added items to localStorage
 /**
  * The Shopping Cart component that shows the user the amount of items added and the total price
  * @returns
  */
 export const ShoppingCart = () => {
-  const { amountAdded } = useStore();
+  const { amountAdded, state } = useStore();
+
+  const [_, setLocalStorage] = useLocalStorage<StoreState>(BLUEPRINT_KEY);
+
   const totalValue = 150;
+
+  useEffect(() => {
+    setLocalStorage(state);
+  }, [amountAdded]);
 
   return (
     <Button className="relative p-2">

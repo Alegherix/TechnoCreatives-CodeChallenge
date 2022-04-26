@@ -6,13 +6,18 @@ export type Action =
   | { type: 'Remove from cart'; payload: Blueprint };
 
 const reducer = (state: StoreState, action: Action) => {
-  const bluePrintIndex = state.bluePrints.indexOf(action.payload);
+  const bluePrintIndex = state.bluePrints.findIndex(
+    (item) => item.id === action.payload.id
+  );
   const bluePrintExist = bluePrintIndex !== -1;
 
   switch (action.type) {
     case 'Add to cart':
       if (bluePrintExist)
         state.bluePrints[bluePrintIndex].amount += action.payload.amount;
+
+      console.log('BlueprintIndex', bluePrintIndex);
+      console.log('BlueprintExists', bluePrintExist);
 
       return bluePrintExist
         ? { bluePrints: [...state.bluePrints] }
