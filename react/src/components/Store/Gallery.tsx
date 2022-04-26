@@ -19,11 +19,10 @@ export const StorefrontGallery: React.VFC<StorefrontGalleryProps> = ({
   );
 };
 
-const StorefrontCard: React.VFC<Balloon> = ({
+export const StorefrontCard: React.VFC<Balloon> = ({
   name,
   imageUrl,
   price,
-  color,
   description,
   id,
 }) => {
@@ -36,7 +35,6 @@ const StorefrontCard: React.VFC<Balloon> = ({
           alt={name}
         />
         <h2 className="mt-1">{name}</h2>
-
         <var className="text-red-500 font-semibold">
           {new Intl.NumberFormat('sv-SE', {
             style: 'currency',

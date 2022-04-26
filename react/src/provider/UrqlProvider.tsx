@@ -9,6 +9,7 @@ import {
 import { cacheExchange } from '@urql/exchange-graphcache';
 import { relayPagination } from '@urql/exchange-graphcache/extras';
 import { retryExchange, RetryExchangeOptions } from '@urql/exchange-retry';
+import { devtoolsExchange } from '@urql/devtools';
 
 interface UrqlProviderProps {
   apiEndpoint: string | undefined;
@@ -25,7 +26,10 @@ const options: RetryExchangeOptions = {
 const cache: Exchange = cacheExchange({
   resolvers: {
     Query: {
-      Balloons: relayPagination(),
+      balloons: relayPagination(),
+      balloon: (_, args) => {
+        return { __typename: 'Balloon', id: args.id };
+      },
     },
   },
 });
@@ -49,6 +53,7 @@ export const UrqlProvider: React.FC<UrqlProviderProps> = ({
       createClient({
         url: apiEndpoint,
         exchanges: [
+          devtoolsExchange,
           dedupExchange,
           retryExchange(options),
           cache,

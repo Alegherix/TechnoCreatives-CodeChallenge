@@ -12,7 +12,7 @@ const stylesMap: Record<Variant, string> = {
 
 export const Button: React.FC<Buttonprops> = ({
   children,
-  type,
+  type = 'button',
   className,
   onClick,
   variant = 'Primary',

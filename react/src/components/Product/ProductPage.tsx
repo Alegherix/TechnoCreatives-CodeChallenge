@@ -1,10 +1,14 @@
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { formatImageUrl } from '../../utils/formatImageUrl';
-import { Spinner, Button } from '../';
-import { useProduct } from './useProduct';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
-import { useStore } from '../../provider';
+import { useParams } from 'react-router-dom';
+import { Button, Spinner } from '../';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { StoreState, useStore } from '../../provider';
+import { BLUEPRINT_KEY } from '../../shared';
+import { formatImageUrl } from '../../utils/formatImageUrl';
+import { StorefrontCard } from '../Store/Gallery';
+import { useGetBalloons } from '../Store/useGetBalloons';
+import { useProduct } from './useProduct';
 
 interface FormValues {
   amount: number;
@@ -12,8 +16,11 @@ interface FormValues {
 
 interface AddToCartProps {
   id: string;
+  price: number;
 }
-const AddToCart: React.VFC<AddToCartProps> = ({ id }) => {
+const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
+  const { state } = useStore();
+  const [_, setSessionStorage] = useSessionStorage<StoreState>(BLUEPRINT_KEY);
   const { addToCart } = useStore();
   const {
     handleSubmit,
@@ -41,7 +48,10 @@ const AddToCart: React.VFC<AddToCartProps> = ({ id }) => {
   };
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    addToCart({ id, amount: Number(data.amount) });
+    addToCart({ id, price, amount: Number(data.amount) });
+    console.log(state);
+
+    setSessionStorage(state);
   };
 
   return (
@@ -52,21 +62,19 @@ const AddToCart: React.VFC<AddToCartProps> = ({ id }) => {
       >
         <div className="flex h-10 w-fit bg-gray-200 gap-[2px]">
           <Button
-            type="button"
             onClick={() => handleCounter('Decrement')}
             variant="Secondary"
           >
             -
           </Button>
           <input
-            className="flex items-center justify-center w-auto max-w-[80px] px-4"
+            className="center max-w-[80px] px-4"
             autoFocus
             {...register('amount', { required: true })}
             type="number"
             min={1}
           />
           <Button
-            type="button"
             variant="Secondary"
             onClick={() => handleCounter('Increment')}
           >
@@ -85,7 +93,6 @@ const AddToCart: React.VFC<AddToCartProps> = ({ id }) => {
 export const ProductPage: React.FC = () => {
   const pageId = useParams<{ id: string }>();
   const { product, fetching, error } = useProduct({ id: pageId.id as string });
-
   if (fetching) return <Spinner />;
   if (error) return <p>Oh no... {error.message}</p>;
   if (!product) return <p>This product does not exist</p>;
@@ -103,8 +110,8 @@ export const ProductPage: React.FC = () => {
   return (
     <>
       <h1 className="my-4">{name}</h1>
-      <div className="flex flex-col gap-2 md:flex-row md:gap-10">
-        <div className="max-w-[600px] max-h-[600px]">
+      <div className="flex flex-col gap-2 md:flex-row md:gap-10 w-full">
+        <div className="max-w-[600px] max-h-[600px] w-full">
           <img
             className="rounded-sm"
             src={formatImageUrl(imageUrl)}
@@ -112,7 +119,7 @@ export const ProductPage: React.FC = () => {
           />
         </div>
 
-        <div className="flex flex-col ">
+        <div className="flex flex-col w-full">
           <p className="text-xs self-end mt-2 font-semibold">
             Article id: <span className="font-normal">{id}</span>
           </p>
@@ -126,7 +133,7 @@ export const ProductPage: React.FC = () => {
             </var>
             <span className="text-xs text-gray-600 block">(incl. vat)</span>
           </div>
-          <AddToCart id={id} />
+          <AddToCart id={id} price={price} />
 
           <hr className="my-4" />
 
@@ -147,6 +154,21 @@ export const ProductPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Featured />
     </>
+  );
+};
+
+const Featured: React.VFC = () => {
+  const { pageInfo, edges, error, fetching } = useGetBalloons({});
+
+  if (fetching) return <Spinner />;
+  if (error) return <p>Oh no... {error.message}</p>;
+
+  return (
+    <div className="mt-32">
+      <h2 className="my-4">Maybe you'd also be interested in</h2>
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
+    </div>
   );
 };

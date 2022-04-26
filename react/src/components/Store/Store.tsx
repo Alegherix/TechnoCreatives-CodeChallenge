@@ -11,21 +11,17 @@ import { Spinner } from '../Spinner';
 import { useGetBalloons } from './useGetBalloons';
 
 export const StoreFront: React.VFC = () => {
-  // const [endCursor, setEndCursor] = useState<string>();
   const { control } = useFormContext<FormValues>();
   const { color, variant, sort } = useWatch<FormValues>({
     control,
   });
   const { pageInfo, edges, error, fetching } = useGetBalloons({
-    // endCursor,
     filter: {
       color,
       variant,
     },
     sort: sort,
   });
-
-  console.log({ fetching, edges });
 
   if (fetching && !edges) return <Spinner />;
   if (error) return <p>Oh no... {error.message}</p>;
@@ -48,6 +44,10 @@ export type FormValues = {
   sort: SortInput | null;
 };
 
+/**
+ * The exported store which is wrapped in a FormProvider to make sure that filters are can communicate with Storefront without needing to pass props
+ * @returns The store
+ */
 export const Store: React.VFC = () => {
   const methods = useForm<FormValues>({
     defaultValues: {

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useStoreReducer } from '../reducer';
 import { BLUEPRINT_KEY } from '../shared';
 
@@ -16,6 +16,11 @@ export interface Blueprint {
    * The amount that has been added to the shopping Cart.
    */
   amount: number;
+
+  /**
+   * The cost associated with the Blueprint item
+   */
+  price: number;
 }
 
 export interface StoreState {
@@ -28,6 +33,7 @@ export interface StoreState {
 export interface StoreContextProps {
   state: StoreState;
   amountAdded: number;
+  totalPrice: number;
   addToCart: (payload: Blueprint) => void;
   removeFromCart: (payload: Blueprint) => void;
 }
@@ -35,13 +41,14 @@ export interface StoreContextProps {
 const StoreContext = createContext<StoreContextProps | null>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {
-  const [localStorageState] = useLocalStorage<StoreState>(BLUEPRINT_KEY, {
+  const [sessionStorageState] = useSessionStorage<StoreState>(BLUEPRINT_KEY, {
     bluePrints: [],
   });
 
-  const { state, addToCart, removeFromCart, amountAdded } = useStoreReducer({
-    bluePrints: localStorageState.bluePrints,
-  });
+  const { state, addToCart, removeFromCart, amountAdded, totalPrice } =
+    useStoreReducer({
+      bluePrints: sessionStorageState.bluePrints,
+    });
 
   return (
     <StoreContext.Provider
@@ -50,6 +57,7 @@ export const StoreProvider: React.FC = ({ children }) => {
         addToCart,
         removeFromCart,
         amountAdded,
+        totalPrice,
       }}
     >
       {children}

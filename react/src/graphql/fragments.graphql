@@ -1,4 +1,5 @@
 fragment BalloonData on Balloon {
+  __typename
   id
   name
   imageUrl

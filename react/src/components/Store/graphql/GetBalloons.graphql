@@ -1,5 +1,6 @@
 query Balloons($endCursor: ID, $filter: FilterInput, $sort: SortInput) {
   balloons(after: $endCursor, filter: $filter, sort: $sort) {
+    __typename
     edges {
       node {
         ...BalloonData
@@ -7,6 +8,7 @@ query Balloons($endCursor: ID, $filter: FilterInput, $sort: SortInput) {
       cursor
     }
     pageInfo {
+      __typename
       startCursor
       endCursor
       hasPreviousPage

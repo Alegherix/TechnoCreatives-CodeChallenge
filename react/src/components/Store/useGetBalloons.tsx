@@ -12,7 +12,7 @@ export interface UseGetBalloons
 }
 
 /**
- * A custom hook that's used to return the relevant data, error and loading state for the Store
+ * A custom hook that's used to return edges (BalloonEdges), PageInfo for pagination , error and loading state for the Store
  * @param variables
  */
 export const useGetBalloons = (
@@ -24,6 +24,8 @@ export const useGetBalloons = (
   });
 
   const { data, error, fetching } = result;
+
+  console.log(data);
 
   const pageInfo = data?.balloons.pageInfo;
   const edges = data?.balloons.edges;

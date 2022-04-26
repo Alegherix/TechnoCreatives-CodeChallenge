@@ -16,9 +16,6 @@ const reducer = (state: StoreState, action: Action) => {
       if (bluePrintExist)
         state.bluePrints[bluePrintIndex].amount += action.payload.amount;
 
-      console.log('BlueprintIndex', bluePrintIndex);
-      console.log('BlueprintExists', bluePrintExist);
-
       return bluePrintExist
         ? { bluePrints: [...state.bluePrints] }
         : { bluePrints: [...state.bluePrints, action.payload] };
@@ -49,5 +46,10 @@ export const useStoreReducer = (initialState: StoreState) => {
     0
   );
 
-  return { state, addToCart, removeFromCart, amountAdded };
+  const totalPrice = state.bluePrints.reduce(
+    (prev, acc) => prev + acc.price * acc.amount,
+    0
+  );
+
+  return { state, addToCart, removeFromCart, amountAdded, totalPrice };
 };
