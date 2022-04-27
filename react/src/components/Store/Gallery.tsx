@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom';
 import { Button, FormValues, Spinner } from '..';
 import { Balloon } from '../../graphql/generated';
 import { formatImageUrl } from '../../utils/formatImageUrl';
+import { PriceDisplay } from '../PriceDisplay';
 import { useGetBalloons } from './useGetBalloons';
 
-export const StorefrontGallery: React.VFC = ({}) => {
+export const StorefrontGallery: React.VFC = () => {
   const [endCursor, setEndCursor] = useState<string | null>(null);
   const { control } = useFormContext<FormValues>();
   const { color, variant, sort } = useWatch<FormValues>({
@@ -26,7 +27,7 @@ export const StorefrontGallery: React.VFC = ({}) => {
 
   if (fetching && !edges) return <Spinner />;
   if (error) return <p>Oh no... {error.message}</p>;
-  if (!pageInfo || !edges) return <p></p>;
+  if (!pageInfo || !edges) return <Spinner />;
 
   return (
     <div className="flex flex-col">
@@ -64,12 +65,7 @@ export const StorefrontCard: React.VFC<Balloon> = ({
           alt={name}
         />
         <h2 className="mt-1">{name}</h2>
-        <var className="text-red-500 font-semibold">
-          {new Intl.NumberFormat('sv-SE', {
-            style: 'currency',
-            currency: 'SEK',
-          }).format(price)}
-        </var>
+        <PriceDisplay price={price} />
         <span className="text-xs text-gray-600 block">(incl. vat)</span>
         <p className="mt-3">{description}</p>
       </div>

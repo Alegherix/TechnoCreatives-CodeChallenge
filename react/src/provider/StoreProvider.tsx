@@ -41,13 +41,9 @@ export interface StoreContextProps {
 const StoreContext = createContext<StoreContextProps | null>(null);
 
 export const StoreProvider: React.FC = ({ children }) => {
-  const [sessionStorageState] = useSessionStorage<StoreState>(BLUEPRINT_KEY, {
-    bluePrints: [],
-  });
-
   const { state, addToCart, removeFromCart, amountAdded, totalPrice } =
     useStoreReducer({
-      bluePrints: sessionStorageState.bluePrints,
+      bluePrints: [],
     });
 
   return (

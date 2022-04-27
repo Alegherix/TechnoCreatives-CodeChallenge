@@ -2,12 +2,9 @@ import React from 'react';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { Button, Spinner } from '../';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { StoreState, useStore } from '../../provider';
-import { BLUEPRINT_KEY } from '../../shared';
+import { useStore } from '../../provider';
 import { formatImageUrl } from '../../utils/formatImageUrl';
-import { StorefrontCard } from '../Store/Gallery';
-import { useGetBalloons } from '../Store/useGetBalloons';
+import { PriceDisplay } from '../PriceDisplay/';
 import { useProduct } from './useProduct';
 
 interface FormValues {
@@ -18,9 +15,7 @@ interface AddToCartProps {
   id: string;
   price: number;
 }
-const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
-  const { state } = useStore();
-  const [_, setSessionStorage] = useSessionStorage<StoreState>(BLUEPRINT_KEY);
+export const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
   const { addToCart } = useStore();
   const {
     handleSubmit,
@@ -49,7 +44,6 @@ const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     addToCart({ id, price, amount: Number(data.amount) });
-    setSessionStorage(state);
   };
 
   return (
@@ -109,7 +103,7 @@ export const ProductPage: React.FC = () => {
     <>
       <h1 className="my-4">{name}</h1>
       <div className="flex flex-col gap-2 md:flex-row md:gap-10 w-full">
-        <div className="max-w-[600px] max-h-[600px] w-full">
+        <div className="max-w-[600px] max-h-[600px] w-full ">
           <img
             className="rounded-sm"
             src={formatImageUrl(imageUrl)}
@@ -123,12 +117,7 @@ export const ProductPage: React.FC = () => {
           </p>
 
           <div className="my-4">
-            <var className="text-red-500 font-semibold text-2xl">
-              {new Intl.NumberFormat('sv-SE', {
-                style: 'currency',
-                currency: 'SEK',
-              }).format(price)}
-            </var>
+            <PriceDisplay price={price} />
             <span className="text-xs text-gray-600 block">(incl. vat)</span>
           </div>
           <AddToCart id={id} price={price} />
@@ -138,7 +127,7 @@ export const ProductPage: React.FC = () => {
           <p className="mt-2 mb-4">{description}</p>
           <div className="flex flex-col text-gray-600 ">
             <div>
-              <span>Release Date:</span>
+              <span>Release Date: </span>
               <time dateTime={availableSince}>
                 {new Date(availableSince).toLocaleDateString('default', {
                   day: '2-digit',
@@ -152,21 +141,6 @@ export const ProductPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <Featured />
     </>
-  );
-};
-
-const Featured: React.VFC = () => {
-  const { pageInfo, edges, error, fetching } = useGetBalloons({});
-
-  if (fetching) return <Spinner />;
-  if (error) return <p>Oh no... {error.message}</p>;
-
-  return (
-    <div className="mt-32">
-      <h2 className="my-4">Maybe you'd also be interested in</h2>
-      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
-    </div>
   );
 };

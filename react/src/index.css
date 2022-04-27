@@ -40,7 +40,7 @@
 
 @layer components {
   .btn {
-    @apply center p-4 w-fit rounded-sm;
+    @apply center p-2 w-fit rounded-sm;
   }
 
   .primaryBtn {

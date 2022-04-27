@@ -13,19 +13,35 @@ const reducer = (state: StoreState, action: Action) => {
 
   switch (action.type) {
     case 'Add to cart':
-      if (bluePrintExist)
+      if (bluePrintExist) {
+        console.log(
+          'blueprints pre addition ',
+          state.bluePrints[bluePrintIndex].amount
+        );
+        console.log('Payload amount', action.payload.amount);
+
         state.bluePrints[bluePrintIndex].amount += action.payload.amount;
+
+        console.log(
+          'blueprints Post addition ',
+          state.bluePrints[bluePrintIndex].amount
+        );
+      }
 
       return bluePrintExist
         ? { bluePrints: [...state.bluePrints] }
         : { bluePrints: [...state.bluePrints, action.payload] };
 
     case 'Remove from cart':
-      if (bluePrintExist) return { bluePrints: [...state.bluePrints] };
+      if (!bluePrintExist) return { bluePrints: [...state.bluePrints] };
 
       state.bluePrints[bluePrintIndex].amount -= action.payload.amount;
       return state.bluePrints[bluePrintIndex].amount <= 0
-        ? { bluePrints: state.bluePrints.slice(bluePrintIndex, 1) }
+        ? {
+            bluePrints: state.bluePrints.filter(
+              (blueprint) => blueprint.id !== action.payload.id
+            ),
+          }
         : { bluePrints: [...state.bluePrints] };
 
     default:
@@ -36,8 +52,11 @@ const reducer = (state: StoreState, action: Action) => {
 export const useStoreReducer = (initialState: StoreState) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addToCart = (payload: Blueprint) =>
+  const addToCart = (payload: Blueprint) => {
+    console.log('Calling addToCart reducer');
+
     dispatch({ type: 'Add to cart', payload });
+  };
   const removeFromCart = (payload: Blueprint) =>
     dispatch({ type: 'Remove from cart', payload });
 
