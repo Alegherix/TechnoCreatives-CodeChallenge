@@ -32,7 +32,7 @@ export const StorefrontGallery: React.VFC = () => {
   return (
     <div className="flex flex-col">
       <div className="grid grid-cols-1 gap-6 mx-auto md:grid-cols-2">
-        {edges?.map((edge) => (
+        {edges.map((edge) => (
           <StorefrontCard key={edge.cursor} {...edge.node} />
         ))}
       </div>

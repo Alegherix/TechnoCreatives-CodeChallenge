@@ -25,7 +25,7 @@ export interface StoreState {
   /**
    * An Array of blueprints that keeps track of all the items added to the shopping cart
    */
-  bluePrints: Blueprint[];
+  blueprints: Blueprint[];
 }
 
 export interface StoreContextProps {
@@ -41,7 +41,7 @@ const StoreContext = createContext<StoreContextProps | null>(null);
 export const StoreProvider: React.FC = ({ children }) => {
   const { state, addToCart, removeFromCart, amountAdded, totalPrice } =
     useStoreReducer({
-      bluePrints: [],
+      blueprints: [],
     });
 
   return (

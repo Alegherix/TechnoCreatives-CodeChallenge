@@ -5,6 +5,13 @@ interface AddToCartProps {
   id: string;
   price: number;
 }
+
+/**
+ * A Components that's used to allow the user to add products to their shopping cart when browsing the store
+ * @param id The id of the item to add to the cart
+ * @param price The price of the item to add to the cart
+ * @returns an add to Cart button
+ */
 export const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
   const { handleCounter, amount, errors, onSubmit, register, handleSubmit } =
     useAddToCart();

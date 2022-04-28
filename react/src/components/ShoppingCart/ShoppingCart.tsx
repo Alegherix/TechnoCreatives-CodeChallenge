@@ -10,13 +10,36 @@ import { PriceDisplay } from '../PriceDisplay';
 import { useProduct } from '../Product/useProduct';
 
 /**
- * The Shopping Cart component that shows the user the amount of items added and the total price
- * @returns
+ * The Shopping Cart component that let's the user see what's been added, aswell as leting them toggle a modal to get an indepth view of the item added to their cart
  */
-export const ShoppingCart = () => {
-  const { amountAdded, totalPrice, state } = useStore();
+export const ShoppingCart: React.VFC = () => {
+  const { state } = useStore();
 
-  const CartButton = () => (
+  return (
+    <Modal.ModalWrapper>
+      <Modal.OpenButton>
+        <OverviewButton />
+      </Modal.OpenButton>
+      <Modal.Content title="Your shopping cart">
+        {state.blueprints.map((blueprint) => (
+          <Card key={blueprint.id} {...blueprint} />
+        ))}
+        <Modal.DismissButton>
+          <Link className="primaryBtn" to="/checkout">
+            Go to checkout
+          </Link>
+        </Modal.DismissButton>
+      </Modal.Content>
+    </Modal.ModalWrapper>
+  );
+};
+
+/**
+ * A Cart overview component that's used to display the amount of items and total price accumulated in the ProductCart
+ */
+const OverviewButton: React.VFC = () => {
+  const { amountAdded, totalPrice } = useStore();
+  return (
     <Button className="relative p-2">
       <IconShoppingCart className="text-white" />
       {amountAdded > 0 && (
@@ -29,29 +52,13 @@ export const ShoppingCart = () => {
       )}
     </Button>
   );
-
-  return (
-    <Modal.ModalWrapper>
-      <Modal.OpenButton>
-        <CartButton />
-      </Modal.OpenButton>
-      <Modal.Content title="Your shopping cart">
-        <div>
-          {state.bluePrints.map((blueprint) => (
-            <ShoppingCartCard key={blueprint.id} {...blueprint} />
-          ))}
-        </div>
-        <Modal.DismissButton>
-          <Link className="primaryBtn" to="/checkout">
-            Go to checkout
-          </Link>
-        </Modal.DismissButton>
-      </Modal.Content>
-    </Modal.ModalWrapper>
-  );
 };
 
-const ShoppingCartCard: React.VFC<Blueprint> = (props) => {
+/**
+ * A card component that's used to display a single item in the Shopping cart
+ * @param props - A blueprint of a product to render in the Shoping Cart Modal
+ */
+const Card: React.VFC<Blueprint> = (props) => {
   const { price, id, amount } = props;
   const { product, fetching, error } = useProduct({ id });
 
@@ -77,18 +84,21 @@ const ShoppingCartCard: React.VFC<Blueprint> = (props) => {
         </div>
         <PriceDisplay price={productSum} />
       </div>
-      <ShoppingCartButtons id={productID} price={price} amount={amount} />
+      <ProductButtons id={productID} price={price} amount={1} />
       <hr className="my-4" />
     </>
   );
 };
 
-const ShoppingCartButtons: React.VFC<Blueprint> = ({ id, price }) => {
+/**
+ * A component that's used for adding or removing a specic item when the inspecting what's been added to the Shopping Cart
+ * @param id the id of the blueprint
+ * @param price - the price of the blueprint item
+ */
+export const ProductButtons: React.VFC<Blueprint> = (props) => {
   const { addToCart, removeFromCart } = useStore();
   const handleClick = (action: 'Add' | 'Remove') => {
-    action === 'Add'
-      ? addToCart({ amount: 1, id, price })
-      : removeFromCart({ amount: 1, id, price });
+    action === 'Add' ? addToCart(props) : removeFromCart(props);
   };
 
   return (

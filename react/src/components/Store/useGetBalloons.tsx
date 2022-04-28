@@ -13,7 +13,7 @@ export interface UseGetBalloons
 
 /**
  * A custom hook that's used to return edges (BalloonEdges), PageInfo for pagination , error and loading state for the Store
- * @param variables
+ * @param variables The variables such as Filters, Sorting, or Cursors
  */
 export const useGetBalloons = (
   variables: BalloonsQueryVariables
