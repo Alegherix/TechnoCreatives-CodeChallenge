@@ -1,8 +1,4 @@
 import { Variant } from '../../shared';
-/**
- * A Spinner component that can be shown to the user when there's a loading state
- * @returns A Spinner Component
- */
 
 const stylesMap: Record<Variant, string> = {
   Primary: 'spinner',
@@ -13,6 +9,10 @@ interface SpinnerProps {
   className?: string;
 }
 
+/**
+ * A Spinner component that can be shown to the user when there's a loading state
+ * @returns A Spinner Component
+ */
 export const Spinner: React.VFC<SpinnerProps> = ({
   className,
   variant = 'Primary',

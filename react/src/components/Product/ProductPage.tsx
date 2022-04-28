@@ -1,86 +1,10 @@
 import React from 'react';
-import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { Button, Spinner } from '../';
-import { useStore } from '../../provider';
+import { Spinner } from '../';
 import { formatImageUrl } from '../../utils/formatImageUrl';
+import { AddToCart } from '../AddToCart';
 import { PriceDisplay } from '../PriceDisplay/';
 import { useProduct } from './useProduct';
-
-interface FormValues {
-  amount: number;
-}
-
-interface AddToCartProps {
-  id: string;
-  price: number;
-}
-export const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
-  const { addToCart } = useStore();
-  const {
-    handleSubmit,
-    register,
-    setValue,
-    getValues,
-    control,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: {
-      amount: 1,
-    },
-  });
-
-  const { amount } = useWatch({
-    control,
-  });
-
-  const handleCounter = (operation: 'Increment' | 'Decrement'): void => {
-    // Have to force this to a number as getValues returns a string representation of the number on initial render, thus leading to errors when adding numbers and strings
-    const currentCount = Number(getValues('amount'));
-    operation === 'Increment'
-      ? setValue('amount', currentCount + 1)
-      : setValue('amount', Math.max(currentCount - 1, 1));
-  };
-
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    addToCart({ id, price, amount: Number(data.amount) });
-  };
-
-  return (
-    <>
-      <form
-        className="flex h-fit gap-2 flex-wrap"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex h-10 w-fit bg-gray-200 gap-[2px]">
-          <Button
-            onClick={() => handleCounter('Decrement')}
-            variant="Secondary"
-          >
-            -
-          </Button>
-          <input
-            className="center max-w-[80px] px-4"
-            autoFocus
-            {...register('amount', { required: true })}
-            type="number"
-            min={1}
-          />
-          <Button
-            variant="Secondary"
-            onClick={() => handleCounter('Increment')}
-          >
-            +
-          </Button>
-        </div>
-        <Button className="h-10" type="submit">
-          Add to cart ({amount})
-        </Button>
-      </form>
-      {errors.amount && <p className="error">An amount is required</p>}
-    </>
-  );
-};
 
 export const ProductPage: React.FC = () => {
   const pageId = useParams<{ id: string }>();

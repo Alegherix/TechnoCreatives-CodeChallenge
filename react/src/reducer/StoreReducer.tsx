@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import { useReducer } from 'react';
 import { Blueprint, StoreState } from '../provider';
 
 export type Action =
@@ -14,18 +14,7 @@ const reducer = (state: StoreState, action: Action) => {
   switch (action.type) {
     case 'Add to cart':
       if (bluePrintExist) {
-        console.log(
-          'blueprints pre addition ',
-          state.bluePrints[bluePrintIndex].amount
-        );
-        console.log('Payload amount', action.payload.amount);
-
         state.bluePrints[bluePrintIndex].amount += action.payload.amount;
-
-        console.log(
-          'blueprints Post addition ',
-          state.bluePrints[bluePrintIndex].amount
-        );
       }
 
       return bluePrintExist
