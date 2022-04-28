@@ -11,15 +11,15 @@ const stylesMap: Record<Variant, string> = {
 };
 
 export const Button: React.FC<Buttonprops> = ({
-  children,
   type = 'button',
-  className,
-  onClick,
   variant = 'Primary',
+  children,
+  className,
+  ...rest
 }) => {
   const style = stylesMap[variant];
   return (
-    <button className={`${style} ${className}`} type={type} onClick={onClick}>
+    <button className={`${style} ${className}`} type={type} {...rest}>
       {children}
     </button>
   );

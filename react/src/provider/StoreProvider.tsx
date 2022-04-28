@@ -1,7 +1,5 @@
 import { createContext, useContext } from 'react';
-import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useStoreReducer } from '../reducer';
-import { BLUEPRINT_KEY } from '../shared';
 
 /**
  * An interface that represents an Item that gets added to the Shopping cart

@@ -1,13 +1,6 @@
 import React from 'react';
-import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { Button } from '..';
-import { useStore } from '../../provider';
 import { useAddToCart } from './useAddToCart';
-
-interface FormValues {
-  amount: number;
-}
-
 interface AddToCartProps {
   id: string;
   price: number;
@@ -15,6 +8,7 @@ interface AddToCartProps {
 export const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
   const { handleCounter, amount, errors, onSubmit, register, handleSubmit } =
     useAddToCart();
+
   return (
     <>
       <form
@@ -25,6 +19,7 @@ export const AddToCart: React.VFC<AddToCartProps> = ({ id, price }) => {
       >
         <div className="flex h-10 w-fit bg-gray-200 gap-[2px]">
           <Button
+            disabled={!!amount && amount <= 1}
             onClick={() => handleCounter('Decrement')}
             variant="Secondary"
           >

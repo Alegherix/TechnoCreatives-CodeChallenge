@@ -36,6 +36,11 @@
   input[type='number'] {
     -moz-appearance: textfield;
   }
+
+  button:disabled,
+  button[disabled] {
+    cursor: not-allowed !important;
+  }
 }
 
 @layer components {
