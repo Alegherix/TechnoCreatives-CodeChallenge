@@ -24,3 +24,7 @@ The application is written in React and TypeScript, as well as the following:
 - [GraphQL Code Generator](https://www.graphql-code-generator.com) For generating types from queries
 - [React Router v6](https://reactrouter.com/) for routing within the application
 - [URQL](https://formidable.com/open-source/urql/) for querying the data layer & caching
+
+### Known Bugs
+
+The modal is kept open when navigating to another page if you click on the title.

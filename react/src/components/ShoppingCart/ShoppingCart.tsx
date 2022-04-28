@@ -92,8 +92,6 @@ const Card: React.VFC<Blueprint> = (props) => {
 
 /**
  * A component that's used for adding or removing a specic item when the inspecting what's been added to the Shopping Cart
- * @param id the id of the blueprint
- * @param price - the price of the blueprint item
  */
 export const ProductButtons: React.VFC<Blueprint> = (props) => {
   const { addToCart, removeFromCart } = useStore();
